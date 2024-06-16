@@ -4,17 +4,22 @@ namespace mousse.Domain.Core.Entities;
 
 public abstract class AggregateRoot : Entity
 {
-    private readonly List<DomainEvent> _events;
+    private readonly List<IDomainEvent> _events;
+
+    private AggregateRoot() : base(Guid.NewGuid())
+    {
+        _events = [];
+    }
 
     public AggregateRoot(Guid id) : base(id)
     {
         _events = [];
     }
 
-    public void RaiseDomainEvent(DomainEvent domainEvent)
+    public void RaiseDomainEvent(IDomainEvent domainEvent)
     {
         _events.Add(domainEvent);
     }
 
-    public IReadOnlyCollection<DomainEvent> DomainEvents { get => _events; }
+    public IReadOnlyList<IDomainEvent> DomainEvents => _events.AsReadOnly();
 }

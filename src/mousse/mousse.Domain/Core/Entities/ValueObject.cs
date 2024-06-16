@@ -4,7 +4,7 @@ using mousse.Domain.Core.Validation;
 
 namespace mousse.Domain.Core.Entities;
 
-public record ValueObject
+public record ValueObject()
 {
     protected static Result<TValue> Validate<TValue>(
         AbstractValidator<TValue> validator,
