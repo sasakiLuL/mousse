@@ -1,0 +1,3 @@
+﻿namespace mousse.Domain.Core.Errors;
+
+public record Error(string Code, string Message);
