@@ -6,7 +6,7 @@ public abstract class AggregateRoot : Entity
 {
     private readonly List<IDomainEvent> _events;
 
-    private AggregateRoot() : base(Guid.NewGuid())
+    protected AggregateRoot() : base()
     {
         _events = [];
     }

@@ -32,7 +32,11 @@ public class Result
 
     public static Result Failure(Error[] errors) => new Result(false, errors);
 
+    public static Result Failure(Error error) => new Result(false, [error]);
+
     public static Result<TValue> Failure<TValue>(Error[] errors) => new Result<TValue>(default!, false, errors);
+
+    public static Result<TValue> Failure<TValue>(Error error) => new Result<TValue>(default!, false, [error]);
 
     public static Result FirstFailureOrSuccess(params Result[] results)
     {

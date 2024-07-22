@@ -1,7 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using mousse.Domain.Playlists;
+using mousse.Domain.Playlists.Albums;
+using mousse.Domain.Playlists.EPs;
+using mousse.Domain.Playlists.PlaylistNames;
+using mousse.Domain.Playlists.UserPlaylists;
 using mousse.Domain.Users;
+using Single = mousse.Domain.Playlists.Singles.Single;
 
 namespace mousse.Persistence.Playlists;
 
@@ -11,41 +16,29 @@ public class PlaylistConfiguration : IEntityTypeConfiguration<Playlist>
     {
         builder.HasKey(p => p.Id);
 
-        builder.OwnsOne(g => g.PlaylistName, builder => {
+        builder.HasIndex(p => p.Id);
 
-            builder.WithOwner();
+        builder.HasDiscriminator(p => p.PlaylistType)
+            .HasValue<UserPlaylist>(PlaylistType.Playlist)
+            .HasValue<Single>(PlaylistType.Single)
+            .HasValue<EP>(PlaylistType.EP)
+            .HasValue<Album>(PlaylistType.Album);
 
-            builder.Property(p => p.Value)
+        builder.ComplexProperty(
+            g => g.PlaylistName, 
+            builder => builder.Property(p => p.Value)
                 .HasColumnName(nameof(PlaylistName))
                 .HasMaxLength(PlaylistName.MaxLenght)
-                .IsRequired();
-        });
+                .IsRequired());
 
         builder.Property(p => p.PlaylistType)
             .IsRequired();
 
-        builder.OwnsOne(g => g.Duration, builder => {
-
-            builder.WithOwner();
-
-            builder.Property(p => p.Seconds)
-                .HasColumnName(nameof(Duration))
-                .IsRequired();
-        });
+        builder.HasOne<User>()
+            .WithMany()
+            .HasForeignKey(u => u.AuthorId);
 
         builder.HasMany(p => p.Tracks)
             .WithMany(t => t.Playlists);
-
-        builder.HasMany(p => p.Owners)
-            .WithMany(u => u.CreatedPlaylists)
-            .UsingEntity("OwnerPlaylist");
-
-        builder.HasMany(p => p.Users)
-            .WithMany(u => u.SavedPlaylists)
-            .UsingEntity("UserPlaylist");
-
-        builder.HasOne<User>()
-            .WithOne(p => p.LikedPlaylist)
-            .HasForeignKey<User>(u => u.LikedPlaylistId);
     }
 }

@@ -2,6 +2,8 @@
 
 public enum PlaylistType
 {
-    Album,
     Playlist,
+    Album,
+    EP,
+    Single,
 }
