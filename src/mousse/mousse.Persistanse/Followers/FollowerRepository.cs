@@ -3,7 +3,7 @@ using mousse.Domain.Followers;
 
 namespace mousse.Persistence.Followers;
 
-public class FollowingRepository(MousseContext context)
+public class FollowerRepository(MousseContext context)
     : Repository<Follower>(context), IFollowerRepository
 {
     public Task<bool> IsAlreadyFollowingAsync(Guid userId, Guid followedId, CancellationToken token = default)
