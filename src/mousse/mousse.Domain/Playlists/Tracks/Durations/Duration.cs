@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using mousse.Domain.Core.Entities;
-using mousse.Domain.Core.Errors;
 using mousse.Domain.Core.Results;
 using mousse.Domain.Core.Validation;
 

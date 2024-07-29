@@ -1,5 +1,4 @@
 ﻿using mousse.Domain.Playlists.PlaylistNames;
-using mousse.Domain.Playlists.Tracks;
 
 namespace mousse.Domain.Playlists.UserPlaylists;
 
@@ -10,22 +9,26 @@ public sealed class UserPlaylist : Playlist
     private UserPlaylist(
         PlaylistName playlistName,
         Guid authorId,
-        bool isPublic,
-        List<Track> tracks) : base(
+        Guid? coverId,
+        bool isPublic) : base(
             playlistName,
             PlaylistType.Playlist,
             authorId,
+            coverId,
             isPublic,
-            tracks)
+            [])
     { }
 
     public static UserPlaylist Create(
         PlaylistName playlistName,
         Guid authorId,
-        bool isPublic,
-        List<Track> tracks)
+        bool isPublic)
     {
-        var userPlaylist = new UserPlaylist(playlistName, authorId, isPublic, tracks);
+        var userPlaylist = new UserPlaylist(
+            playlistName, 
+            authorId, 
+            null, 
+            isPublic);
 
         userPlaylist.RaiseDomainEvent(new UserPlaylistCreated(authorId, userPlaylist.Id));
 

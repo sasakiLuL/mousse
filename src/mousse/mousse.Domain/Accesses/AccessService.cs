@@ -7,48 +7,38 @@ namespace mousse.Domain.Accesses;
 public class AccessService(
     IAccessRepository accessRepository) : IAccessService
 {
-    public async Task<Result<Access>> StartAddingCollaboratorAsync(
-        User user, 
-        Playlist playlist, 
-        CancellationToken token = default)
+    public async Task<Result<Access>> AddPlaylistToLibraryAsync(
+        User user, Playlist playlist, CancellationToken token = default)
     {
-        var access = await accessRepository.GetAsync(user.Id, playlist.Id);
-
-        if (access is null)
-        {
-            return Result.Success(
-                Access.CreateCollaboration(
-                    user.Id, 
-                    playlist.Id,
-                    DateTime.UtcNow));
-        }
-
-        if (access.AccessLevel == AccessLevel.Collaborator)
-        {
-            return Result.Failure<Access>(AccessErrors.AlreadyCollaborator);
-        }
-
-        access.AccessLevel = AccessLevel.Collaborator;
-
-        return Result.Success(access);
-    }
-
-    public async Task<Result<Access>> StartSavingAsync(
-        User user, 
-        Playlist playlist, 
-        CancellationToken token = default)
-    {
-        var access = await accessRepository.GetAsync(user.Id, playlist.Id);
-
-        if (access is not null)
+        if (await accessRepository.IsAlreadySavedAsync(
+                user.Id, playlist.Id, token))
         {
             return Result.Failure<Access>(AccessErrors.AlreadySaved);
         }
 
+        if (!playlist.IsPublic)
+        {
+            return Result.Failure<Access>(PlaylistErrors.NonPublicPlaylist);
+        }
+
         return Result.Success(
-            Access.CreateSave(
-                user.Id,
-                playlist.Id,
-                DateTime.UtcNow));
+            new Access(user.Id, playlist.Id, DateTime.UtcNow));
+    }
+
+    public async Task<bool> HasRightToChangePlaylistAsync(
+        User user, Playlist playlist, CancellationToken token = default)
+    {
+        if (playlist.AuthorId != user.Id)
+        {
+            return false;
+        }
+
+        if (!await accessRepository.IsCollaboratorInPlaylistAsync(
+                user.Id, playlist.Id, token))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

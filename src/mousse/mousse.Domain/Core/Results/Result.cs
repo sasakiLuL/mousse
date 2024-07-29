@@ -38,21 +38,15 @@ public class Result
 
     public static Result<TValue> Failure<TValue>(Error error) => new Result<TValue>(default!, false, [error]);
 
-    public static Result FirstFailureOrSuccess(params Result[] results)
+    public static Result AllFailuresOrSuccess(params Result[] results)
     {
-        foreach (Result result in results)
+        var errors = results.SelectMany(x => x.Errors);
+
+        if (errors.Any())
         {
-            if (result.IsFailure)
-            {
-                return result;
-            }
+            return Failure([..errors]);
         }
 
         return Success();
-    }
-
-    public static IEnumerable<Error> GetAllErrors(params Result[] results)
-    {
-        return results.SelectMany(x => x.Errors);
     }
 }

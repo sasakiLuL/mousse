@@ -4,15 +4,11 @@ using mousse.Domain.Users;
 
 namespace mousse.Domain.Accesses;
 
-internal interface IAccessService
+public interface IAccessService
 {
-    Task<Result<Access>> StartSavingAsync(
-        User user, 
-        Playlist playlist, 
-        CancellationToken token = default);
+    Task<Result<Access>> AddPlaylistToLibraryAsync(
+        User user, Playlist playlist, CancellationToken token = default);
 
-    Task<Result<Access>> StartAddingCollaboratorAsync(
-        User user, 
-        Playlist playlist, 
-        CancellationToken token = default);
+    Task<bool> HasRightToChangePlaylistAsync(
+        User user, Playlist playlist, CancellationToken token = default);
 }

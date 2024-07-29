@@ -1,7 +1,7 @@
 ﻿namespace mousse.Domain.Accesses;
 
-public enum AccessLevel
+public enum Role
 {
-    Save,
+    User,
     Collaborator,
 }

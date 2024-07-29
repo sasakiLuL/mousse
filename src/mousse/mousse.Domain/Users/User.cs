@@ -28,7 +28,7 @@ public sealed class User : AggregateRoot
     {
         var user = new User(userName, email, likedPlaylistId);
 
-        user.RaiseDomainEvent(new UserCreatedEvent(user.Id));
+        user.RaiseDomainEvent(new UserCreated(user.Id));
 
         return user;
     }

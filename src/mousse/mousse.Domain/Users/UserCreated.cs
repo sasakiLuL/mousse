@@ -2,4 +2,4 @@
 
 namespace mousse.Domain.Users;
 
-public record UserCreatedEvent(Guid UserId) : IDomainEvent;
+public record UserCreated(Guid UserId) : IDomainEvent;

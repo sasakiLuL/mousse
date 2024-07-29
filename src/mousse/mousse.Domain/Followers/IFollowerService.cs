@@ -5,5 +5,5 @@ namespace mousse.Domain.Followers;
 
 public interface IFollowerService
 {
-    Task<Result<Follower>> StartFollowingAsync(User user, User followed, CancellationToken token = default);
+    Task<Result<Follower>> FollowAsync(User user, User followed, CancellationToken token = default);
 }

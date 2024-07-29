@@ -6,5 +6,5 @@ public interface IRepository<TValue> where TValue : Entity
 {
     Task AddAsync(TValue entity, CancellationToken token = default);
 
-    void Remove(TValue entity);
+    void Delete(TValue entity);
 }

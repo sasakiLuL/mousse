@@ -4,4 +4,5 @@ namespace mousse.Domain.Playlists;
 
 public interface IPlaylistRepository : IRepository<Playlist>
 {
+    Task<Playlist?> GetPlaylistByIdAsync(Guid playlistId, CancellationToken token = default);
 }

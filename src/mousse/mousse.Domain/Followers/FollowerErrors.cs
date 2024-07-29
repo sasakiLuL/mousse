@@ -11,4 +11,8 @@ public static class FollowerErrors
     public static readonly Error AlreadyFollowing = new Error(
         "Follower.AlreadyFollowing",
         "Already following");
+
+    public static readonly Error NotFoundByUser = new Error(
+        "Follower.NotFoundByUser",
+        "The specified user is not found.");
 }

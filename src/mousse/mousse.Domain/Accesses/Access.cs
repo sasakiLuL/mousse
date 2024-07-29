@@ -1,20 +1,20 @@
 ﻿using mousse.Domain.Core.Entities;
+using mousse.Domain.Core.Results;
 
 namespace mousse.Domain.Accesses;
 
 public sealed class Access : AggregateRoot
 {
-    public Access() : base() { }
+    private Access() : base() { }
 
     public Access(
         Guid userId,
         Guid playlistId,
-        AccessLevel accessLevel,
         DateTime createdOnUtc) : base()
     {
         UserId = userId;
         PlaylistId = playlistId;
-        AccessLevel = accessLevel;
+        Role = Role.User;
         CreatedOnUtc = createdOnUtc;
     }
 
@@ -24,37 +24,22 @@ public sealed class Access : AggregateRoot
 
     public DateTime CreatedOnUtc { get; private set; }
 
-    public AccessLevel AccessLevel { get; set; }
+    public Role Role { get; set; }
 
-    public static Access CreateSave(
-        Guid userId,
-        Guid playlistId,
-        DateTime createdOnUtc)
+    public Result ChangeRole(Role role)
     {
-        var access = new Access(
-            userId,
-            playlistId,
-            AccessLevel.Save,
-            createdOnUtc);
+        if (Role == role)
+        {
+            return Result.Failure(AccessErrors.SameRole);
+        }
 
-        access.RaiseDomainEvent(new PlaylistSaved(playlistId, userId));
+        Role = role;
 
-        return access;
-    }
+        if (Role == Role.Collaborator)
+        {
+            RaiseDomainEvent(new CollaboratorCreated(PlaylistId, UserId));
+        }
 
-    public static Access CreateCollaboration(
-        Guid userId,
-        Guid playlistId,
-        DateTime createdOnUtc)
-    {
-        var access = new Access(
-            userId,
-            playlistId,
-            AccessLevel.Collaborator,
-            createdOnUtc);
-
-        access.RaiseDomainEvent(new AddedCollaborator(playlistId, userId));
-
-        return access;
+        return Result.Success();
     }
 }

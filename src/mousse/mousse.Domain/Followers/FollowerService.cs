@@ -6,7 +6,7 @@ namespace mousse.Domain.Followers;
 public class FollowerService(
     IFollowerRepository followerRepository) : IFollowerService
 {
-    public async Task<Result<Follower>> StartFollowingAsync(
+    public async Task<Result<Follower>> FollowAsync(
         User user,
         User followed,
         CancellationToken token = default)
@@ -16,7 +16,7 @@ public class FollowerService(
             return Result.Failure<Follower>(FollowerErrors.SameUser);
         }
 
-        if (await followerRepository.IsAlreadyFollowingAsync(user, followed, token))
+        if (await followerRepository.IsAlreadyFollowingAsync(user.Id, followed.Id, token))
         {
             return Result.Failure<Follower>(FollowerErrors.AlreadyFollowing);
         }
