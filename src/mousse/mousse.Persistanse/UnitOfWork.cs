@@ -1,4 +1,4 @@
-﻿using mousse.Domain.Core.Repositories;
+﻿using mousse.Application.Abstractions.Data;
 
 namespace mousse.Persistence;
 

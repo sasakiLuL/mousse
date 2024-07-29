@@ -2,14 +2,14 @@
 using mousse.Domain.Accesses;
 using mousse.Domain.Followers;
 using mousse.Domain.Playlists;
-using mousse.Domain.Playlists.Albums;
-using mousse.Domain.Playlists.EPs;
+using mousse.Domain.Playlists.Releases.Albums;
+using mousse.Domain.Playlists.Releases.EPs;
 using mousse.Domain.Playlists.Tracks;
 using mousse.Domain.Playlists.UserPlaylists;
 using mousse.Domain.Tags;
 using mousse.Domain.Users;
 using System.Reflection;
-using Single = mousse.Domain.Playlists.Singles.Single;
+using Single = mousse.Domain.Playlists.Releases.Singles.Single;
 
 namespace mousse.Persistence;
 

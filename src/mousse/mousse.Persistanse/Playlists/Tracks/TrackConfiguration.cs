@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using mousse.Domain.Playlists;
+using mousse.Domain.Playlists.Releases;
 using mousse.Domain.Playlists.Tracks;
 using mousse.Domain.Playlists.Tracks.Durations;
 using mousse.Domain.Playlists.Tracks.TrackNames;
@@ -30,7 +32,16 @@ public class TrackConfiguration : IEntityTypeConfiguration<Track>
         builder.HasMany(p => p.Playlists)
             .WithMany(p => p.Tracks);
 
+        builder.HasOne<Release>()
+            .WithMany(r => r.Realeses)
+            .HasForeignKey(t => t.ReleasePlaylistId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.NoAction);
+
         builder.HasMany(t => t.Tags)
             .WithMany();
+
+        builder.HasMany(t => t.Artists)
+           .WithMany();
     }
 }

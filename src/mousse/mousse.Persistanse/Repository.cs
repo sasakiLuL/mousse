@@ -14,7 +14,7 @@ public class Repository<TValue>(
         await _context.AddAsync(entity, token);
     }
 
-    public void Remove(TValue entity)
+    public void Delete(TValue entity)
     {
         _context.Remove(entity);
     }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using mousse.Application.Abstractions.Data;
 using mousse.Domain.Accesses;
-using mousse.Domain.Core.Repositories;
 using mousse.Domain.Followers;
 using mousse.Domain.Playlists;
 using mousse.Domain.Tags;

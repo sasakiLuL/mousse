@@ -64,7 +64,7 @@ namespace mousse.Persistence.Migrations
                     b.Property<Guid>("PlaylistId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("AccessLevel")
+                    b.Property<int>("Role")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedOnUtc")
