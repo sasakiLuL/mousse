@@ -9,7 +9,7 @@ public sealed class Follower : AggregateRoot
     private Follower(
         Guid userId,
         Guid followedId,
-        DateTime createdOnUtc)
+        DateTime createdOnUtc) : base()
     {
         UserId = userId;
         FollowedId = followedId;

@@ -14,19 +14,19 @@ public abstract class Playlist : AggregateRoot
     protected Playlist() : base(Guid.NewGuid()) { }
 
     protected Playlist(
+        Guid id,
         PlaylistName playlistName,
         PlaylistType playlistType,
         Guid authorId,
         Guid? coverId,
         bool isPublic,
-        ICollection<Track> tracks)
-        : base(Guid.NewGuid())
+        List<Track> tracks) : base(id)
     {
         PlaylistName = playlistName;
         PlaylistType = playlistType;
         AuthorId = authorId;
-        CoverId = coverId;
-        _traks = tracks.ToList();
+        CoverBlobId = coverId;
+        _traks = tracks;
     }
 
     public PlaylistName PlaylistName { get; set; }
@@ -35,15 +35,20 @@ public abstract class Playlist : AggregateRoot
 
     public Guid AuthorId { get; private set; }
 
-    public Guid? CoverId { get; set; }
+    public Guid? CoverBlobId { get; private set; }
 
     public bool IsPublic {  get; set; }
 
     public int TracksCount => _traks.Count;
 
-    protected int DurationInMinutes => _traks.Sum(t => t.Duration.Seconds);
+    protected int DurationInSeconds => _traks.Sum(t => t.Duration.Seconds);
 
     public IReadOnlyList<Track> Tracks => _traks.AsReadOnly();
+
+    public virtual void UpdateCover(Guid blobId)
+    {
+        CoverBlobId = blobId;
+    }
 
     public virtual Result AddTrack(Track track)
     {

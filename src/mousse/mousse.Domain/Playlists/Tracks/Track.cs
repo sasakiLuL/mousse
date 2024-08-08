@@ -14,13 +14,14 @@ public sealed class Track : Entity
     private Track() : base(Guid.NewGuid()) { }
 
     public Track(
+        Guid id,
         TrackName trackName,
         Duration duration,
         Guid audioId,
-        Guid coverId,
+        Guid? coverId,
         Guid releasePlaylistId,
         ICollection<User> artists,
-        ICollection<Tag> tags) : base(Guid.NewGuid())
+        ICollection<Tag> tags) : base(id)
     {
         TrackName = trackName;
         Duration = duration;
@@ -37,7 +38,7 @@ public sealed class Track : Entity
 
     public Guid AudioBlobId { get; private set; }
 
-    public Guid CoverBlobId { get; private set; }
+    public Guid? CoverBlobId { get; set; }
 
     public Guid ReleasePlaylistId { get; private set; }
 
@@ -48,10 +49,11 @@ public sealed class Track : Entity
     public IReadOnlyList<Playlist> Playlists { get; private set; }
 
     public static Result<Track> Create(
+        Guid id,
         TrackName trackName,
         Duration duration,
         Guid audioId,
-        Guid coverId,
+        Guid? coverId,
         Guid releasePlaylistId,
         ICollection<User> artists,
         ICollection<Tag> tags)
@@ -63,6 +65,7 @@ public sealed class Track : Entity
 
         return Result.Success(
             new Track(
+                id,
                 trackName, 
                 duration, 
                 audioId,

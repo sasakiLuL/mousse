@@ -8,10 +8,11 @@ public sealed class User : AggregateRoot
 {
     private User() : base(Guid.NewGuid()) { }
 
-    public User(
+    private User(
+        Guid id,
         UserName userName, 
         Email email, 
-        Guid likedPlaylistId) : base(Guid.NewGuid())
+        Guid likedPlaylistId) : base(id)
     {
         UserName = userName;
         Email = email;
@@ -24,9 +25,9 @@ public sealed class User : AggregateRoot
 
     public Guid LikedPlaylistId { get; private set; }
 
-    public User Create(UserName userName, Email email, Guid likedPlaylistId)
+    public User Create(Guid id, UserName userName, Email email, Guid likedPlaylistId)
     {
-        var user = new User(userName, email, likedPlaylistId);
+        var user = new User(id, userName, email, likedPlaylistId);
 
         user.RaiseDomainEvent(new UserCreated(user.Id));
 

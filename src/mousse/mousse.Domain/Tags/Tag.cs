@@ -8,7 +8,7 @@ public sealed class Tag : AggregateRoot
 {
     private Tag() : base(Guid.NewGuid()) { }
 
-    private Tag(TagName tagName) : base(Guid.NewGuid())
+    public Tag(Guid id, TagName tagName) : base(id)
     {
         TagName = tagName;
     }

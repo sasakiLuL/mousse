@@ -9,4 +9,7 @@ public static class TrackErrors
 
     public static readonly Error TooManyTags = new Error(
         "Track.TooManyTags", "The limit of tags has been reached.");
+
+    public static readonly Error TrackSessionNotFound = new Error(
+        "Track.TrackSessionNotFound", "The track session was not found.");
 }

@@ -7,10 +7,12 @@ public sealed class UserPlaylist : Playlist
     private UserPlaylist() : base() { }
 
     private UserPlaylist(
+        Guid id,
         PlaylistName playlistName,
         Guid authorId,
         Guid? coverId,
         bool isPublic) : base(
+            id,
             playlistName,
             PlaylistType.Playlist,
             authorId,
@@ -20,11 +22,13 @@ public sealed class UserPlaylist : Playlist
     { }
 
     public static UserPlaylist Create(
+        Guid id,
         PlaylistName playlistName,
         Guid authorId,
         bool isPublic)
     {
         var userPlaylist = new UserPlaylist(
+            id,
             playlistName, 
             authorId, 
             null, 
