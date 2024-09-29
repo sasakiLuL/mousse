@@ -1,0 +1,6 @@
+services:
+  mousse.api:
+    image: ${DOCKER_REGISTRY-}mousseapi
+    build:
+      context: .
+      dockerfile: src/mousse.Api/Dockerfile
