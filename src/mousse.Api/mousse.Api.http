@@ -1,6 +1,0 @@
-@mousse.Api_HostAddress = http://localhost:5264
-
-GET {{mousse.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
