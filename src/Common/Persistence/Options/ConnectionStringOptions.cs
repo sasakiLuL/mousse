@@ -6,5 +6,5 @@ public class ConnectionStringOptions
 
     public static implicit operator string(ConnectionStringOptions connectionString) => connectionString.Value;
 
-    public static readonly string ConnectionStringSection = "Database";
+    public static readonly string Section = "Database";
 }

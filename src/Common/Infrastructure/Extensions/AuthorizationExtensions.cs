@@ -11,7 +11,7 @@ public static class AuthorizationExtensions
     public static IServiceCollection AddKeycloakAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         var authenticationOptions = configuration
-            .GetRequiredSection(AuthenticationOptions.Section)
+            .GetSection(AuthenticationOptions.Section)
             .Get<AuthenticationOptions>() ?? throw new ArgumentException(nameof(AuthenticationOptions));
 
         services
